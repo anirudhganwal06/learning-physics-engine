@@ -2,7 +2,7 @@ let canvas = document.getElementById('myCanvas');
 let ctx = canvas.getContext('2d');
 
 const fps = 60;         // Frames per second
-const cor = 1;        // Coefficient of Restitution
+const cor = 0.6;        // Coefficient of Restitution
 const gravity = 9.8;    // Gravity on earth
 
 class Ball {
