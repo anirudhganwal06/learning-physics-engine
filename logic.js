@@ -34,8 +34,9 @@ class Ball {
 
 const bodies = [];
 /** radius, mass, posx, posy, velx, vely, accx, accy **/
-bodies.push(new Ball(10, 1, 10, 30, 10, 0, 0, gravity));
-// bodies.push(new Ball(10, 1, 120, 30, 3, 0, 0, gravity));
+bodies.push(new Ball(10, 1, 60, 30, -7.5, 0, 0, gravity));
+bodies.push(new Ball(10, 1, 250, 30, -3, 0, 0, gravity));
+bodies.push(new Ball(10, 1, 170, 40, -3, 0, 0, gravity));
 
 let didCollide = pair => {
     let bodyA = bodies[pair[0]];
@@ -61,17 +62,17 @@ let checkForCollition = pairs => {
 
         let collided = didCollide(pair);
         if (collided) {
-            // bodyA.pos.x -= bodyA.vel.x;
-            // bodyA.pos.y -= bodyA.vel.y;
-            // bodyB.pos.x -= bodyB.vel.x;
-            // bodyB.pos.y -= bodyB.vel.y;
+            bodyA.pos.x -= bodyA.vel.x;
+            bodyA.pos.y -= bodyA.vel.y;
+            bodyB.pos.x -= bodyB.vel.x;
+            bodyB.pos.y -= bodyB.vel.y;
 
 
             // These equations of final velocity in 2d are copied from wikipedia link: https://en.wikipedia.org/wiki/Elastic_collision
-            bodyA.vel.x = (((velA * Math.cos(thetaA - contactAngle) * (bodyA.mass - bodyB.mass)) + (2 * bodyB.mass * velB * Math.cos(thetaB - contactAngle))) * Math.cos(contactAngle) / (bodyA.mass + bodyB.mass)) + (velA * Math.sin(thetaA - contactAngle) * Math.cos(contactAngle - Math.PI / 2));
-            bodyA.vel.y = (((velA * Math.cos(thetaA - contactAngle) * (bodyA.mass - bodyB.mass)) + (2 * bodyB.mass * velB * Math.cos(thetaB - contactAngle))) * Math.sin(contactAngle) / (bodyA.mass + bodyB.mass)) + (velA * Math.sin(thetaA - contactAngle) * Math.sin(contactAngle - Math.PI / 2));
-            bodyB.vel.x = (((velB * Math.cos(thetaB - contactAngle) * (bodyB.mass - bodyA.mass)) + (2 * bodyA.mass * velA * Math.cos(thetaA - contactAngle))) * Math.cos(contactAngle) / (bodyB.mass + bodyA.mass)) + (velB * Math.sin(thetaB - contactAngle) * Math.cos(contactAngle - Math.PI / 2));
-            bodyB.vel.y = (((velB * Math.cos(thetaB - contactAngle) * (bodyB.mass - bodyA.mass)) + (2 * bodyA.mass * velA * Math.cos(thetaA - contactAngle))) * Math.sin(contactAngle) / (bodyB.mass + bodyA.mass)) + (velB * Math.sin(thetaB - contactAngle) * Math.sin(contactAngle - Math.PI / 2));
+            bodyA.vel.x = -(((velA * Math.cos(thetaA - contactAngle) * (bodyA.mass - bodyB.mass)) + (2 * bodyB.mass * velB * Math.cos(thetaB - contactAngle))) * Math.cos(contactAngle) / (bodyA.mass + bodyB.mass)) + (velA * Math.sin(thetaA - contactAngle) * Math.cos(contactAngle - Math.PI / 2));
+            bodyA.vel.y = -(((velA * Math.cos(thetaA - contactAngle) * (bodyA.mass - bodyB.mass)) + (2 * bodyB.mass * velB * Math.cos(thetaB - contactAngle))) * Math.sin(contactAngle) / (bodyA.mass + bodyB.mass)) + (velA * Math.sin(thetaA - contactAngle) * Math.sin(contactAngle - Math.PI / 2));
+            bodyB.vel.x = -(((velB * Math.cos(thetaB - contactAngle) * (bodyB.mass - bodyA.mass)) + (2 * bodyA.mass * velA * Math.cos(thetaA - contactAngle))) * Math.cos(contactAngle) / (bodyB.mass + bodyA.mass)) + (velB * Math.sin(thetaB - contactAngle) * Math.cos(contactAngle - Math.PI / 2));
+            bodyB.vel.y = -(((velB * Math.cos(thetaB - contactAngle) * (bodyB.mass - bodyA.mass)) + (2 * bodyA.mass * velA * Math.cos(thetaA - contactAngle))) * Math.sin(contactAngle) / (bodyB.mass + bodyA.mass)) + (velB * Math.sin(thetaB - contactAngle) * Math.sin(contactAngle - Math.PI / 2));
             // bodyA.vel.x = bodyA.vel.x - ((2 * bodyB.mass / (bodyA.mass + bodyB.mass)) * ((((bodyA.vel.x - bodyB.vel.x) * (bodyA.pos.x - bodyB.pos.x)) + ((bodyA.vel.y - bodyB.vel.y) * (bodyA.pos.y - bodyB.pos.y))) / (((bodyA.pos.x - bodyB.pos.x) ** 2) + ((bodyA.pos.y - bodyB.pos.y) ** 2))) * (bodyA.pos.x - bodyB.pos.x));   // These equations of final velocity in 2d are copied from wikipedia link: https://en.wikipedia.org/wiki/Elastic_collision 
             // bodyA.vel.y = bodyA.vel.y - ((2 * bodyB.mass / (bodyA.mass + bodyB.mass)) * ((((bodyA.vel.x - bodyB.vel.x) * (bodyA.pos.x - bodyB.pos.x)) + ((bodyA.vel.y - bodyB.vel.y) * (bodyA.pos.y - bodyB.pos.y))) / (((bodyA.pos.x - bodyB.pos.x) ** 2) + ((bodyA.pos.y - bodyB.pos.y) ** 2))) * (bodyA.pos.y - bodyB.pos.y));   // These equations of final velocity in 2d are copied from wikipedia link: https://en.wikipedia.org/wiki/Elastic_collision 
             // bodyB.vel.x = bodyB.vel.x - ((2 * bodyA.mass / (bodyB.mass + bodyA.mass)) * ((((bodyB.vel.x - bodyA.vel.x) * (bodyB.pos.x - bodyA.pos.x)) + ((bodyB.vel.y - bodyA.vel.y) * (bodyB.pos.y - bodyA.pos.y))) / (((bodyB.pos.x - bodyA.pos.x) ** 2) + ((bodyB.pos.y - bodyA.pos.y) ** 2))) * (bodyB.pos.x - bodyA.pos.x));   // These equations of final velocity in 2d are copied from wikipedia link: https://en.wikipedia.org/wiki/Elastic_collision 
@@ -138,7 +139,9 @@ let draw = bodies => {
     for (let body of bodies) {
         ctx.beginPath();
         ctx.arc(body.pos.x, body.pos.y, body.radius, 0, 2 * Math.PI, true);
-        ctx.strokeStyle = '#f00';
+        ctx.fillStyle = '#f00';
+        ctx.strokeStyle = "#fff";
+        ctx.fill();
         ctx.stroke();
     }
 }

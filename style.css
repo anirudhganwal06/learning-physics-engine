@@ -1,5 +1,17 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: black
+}
+
 #myCanvas {
     width: 1200px;
     height: 700px;
-    border: 1px solid black;  
+    border: 1px solid white;  
+    margin: auto;
+    display: block;
+}
+
+h1, h2, i, p {
+    text-align: center;
+    color: white
 }
