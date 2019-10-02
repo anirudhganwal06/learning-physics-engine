@@ -34,8 +34,8 @@ class Ball {
 
 const bodies = [];
 /** radius, mass, posx, posy, velx, vely, accx, accy **/
-bodies.push(new Ball(10, 1, 60, 30, -7.5, 0, 0, gravity));
-bodies.push(new Ball(10, 1, 250, 30, -3, 0, 0, gravity));
+bodies.push(new Ball(14, 1, 60, 30, -7.5, 0, 0, gravity));
+// bodies.push(new Ball(12, 1, 250, 30, -3, 0, 0, gravity));
 bodies.push(new Ball(10, 1, 170, 40, -3, 0, 0, gravity));
 
 let didCollide = pair => {
@@ -136,13 +136,19 @@ let checkAndUpdateOnBoundary = body => {
 
 let draw = bodies => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let i = 0
     for (let body of bodies) {
         ctx.beginPath();
         ctx.arc(body.pos.x, body.pos.y, body.radius, 0, 2 * Math.PI, true);
-        ctx.fillStyle = '#f00';
+        if (i % 2 == 0) {
+            ctx.fillStyle = '#0f0';
+        } else {
+            ctx.fillStyle = '#f00';
+        }
         ctx.strokeStyle = "#fff";
         ctx.fill();
         ctx.stroke();
+        i++;
     }
 }
 
